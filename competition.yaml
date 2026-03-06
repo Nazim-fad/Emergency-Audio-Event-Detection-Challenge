@@ -41,33 +41,33 @@ leaderboards:
   - title: Results
     key: main
     columns:
-      - title: Test Event F1
-        key: test_event_f1
+      - title: Test Segment F1
+        key: test_segment_f1
         index: 0
         sorting: desc
 
-      - title: Test Event Precision
-        key: test_event_precision
+      - title: Test Segment Precision
+        key: test_segment_precision
         index: 1
         sorting: desc
 
-      - title: Test Event Recall
-        key: test_event_recall
+      - title: Test Segment Recall
+        key: test_segment_recall
         index: 2
         sorting: desc
 
-      - title: Test Clip F1
-        key: test_clip_f1
+      - title: Test Presence F1
+        key: test_presence_f1
         index: 3
         sorting: desc
 
-      - title: Test Clip Accuracy
-        key: test_clip_accuracy
+      - title: Test Presence Accuracy
+        key: test_presence_accuracy
         index: 4
         sorting: desc
 
-      - title: Private Event F1
-        key: private_test_event_f1
+      - title: Private Segment F1
+        key: private_test_segment_f1
         index: 5
         sorting: desc
         hidden: True

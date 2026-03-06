@@ -91,7 +91,6 @@ def match_segments(
             if iou >= iou_threshold:
                 candidate_pairs.append((iou, i, j))
 
-    # Highest IoU first
     candidate_pairs.sort(reverse=True, key=lambda x: x[0])
 
     matched_ious = []
@@ -118,7 +117,7 @@ def f1_score(precision: float, recall: float) -> float:
     return float(2 * precision * recall / (precision + recall))
 
 
-def compute_event_metrics(
+def compute_segment_metrics(
     pred_df: pd.DataFrame,
     true_df: pd.DataFrame,
     iou_threshold: float = IOU_THRESHOLD,
@@ -156,26 +155,20 @@ def compute_event_metrics(
     )
 
     return {
-        "event_precision": precision,
-        "event_recall": recall,
-        "event_f1": f1,
-        "event_tp": float(total_tp),
-        "event_fp": float(total_fp),
-        "event_fn": float(total_fn),
-        "matched_mean_iou": mean_matched_iou,
+        "segment_precision": precision,
+        "segment_recall": recall,
+        "segment_f1": f1,
+        "segment_tp": float(total_tp),
+        "segment_fp": float(total_fp),
+        "segment_fn": float(total_fn),
+        "segment_mean_iou": mean_matched_iou,
     }
 
 
-def compute_clip_metrics(pred_df: pd.DataFrame, true_df: pd.DataFrame) -> dict[str, float]:
+def compute_presence_metrics(pred_df: pd.DataFrame, true_df: pd.DataFrame) -> dict[str, float]:
     pred_positive = set(pred_df["sample_id"].astype(str).unique()) if not pred_df.empty else set()
     true_positive = set(true_df["sample_id"].astype(str).unique()) if not true_df.empty else set()
 
-    all_sample_ids = sorted(pred_positive | true_positive)
-
-    # If there are clips with no events in both pred and truth, they won't appear
-    # in the labels/prediction files. To compute clip accuracy correctly, we need
-    # the full sample universe outside this function. So accuracy is computed later.
-    # Here we compute clip precision/recall/f1 only on positive/negative presence.
     tp = len(pred_positive & true_positive)
     fp = len(pred_positive - true_positive)
     fn = len(true_positive - pred_positive)
@@ -185,16 +178,16 @@ def compute_clip_metrics(pred_df: pd.DataFrame, true_df: pd.DataFrame) -> dict[s
     f1 = f1_score(precision, recall)
 
     return {
-        "clip_precision": precision,
-        "clip_recall": recall,
-        "clip_f1": f1,
-        "clip_tp": float(tp),
-        "clip_fp": float(fp),
-        "clip_fn": float(fn),
+        "presence_precision": precision,
+        "presence_recall": recall,
+        "presence_f1": f1,
+        "presence_tp": float(tp),
+        "presence_fp": float(fp),
+        "presence_fn": float(fn),
     }
 
 
-def compute_clip_accuracy(
+def compute_presence_accuracy(
     features_df: pd.DataFrame,
     pred_df: pd.DataFrame,
     true_df: pd.DataFrame,
@@ -215,7 +208,7 @@ def compute_clip_accuracy(
 
 def load_features(reference_dir: Path, eval_set: str) -> pd.DataFrame:
     """
-    For clip-level accuracy we need the full set of sample_ids.
+    For presence accuracy we need the full set of sample_ids.
     Since scoring normally only receives reference_data and predictions,
     we store a copy of the public/private feature manifests in reference_data too.
     """
@@ -223,7 +216,7 @@ def load_features(reference_dir: Path, eval_set: str) -> pd.DataFrame:
     if not path.exists():
         raise FileNotFoundError(
             f"Missing {path}. "
-            "Reference data must include test/private_test feature manifests for clip metrics."
+            "Reference data must include test/private_test feature manifests for presence metrics."
         )
     return pd.read_csv(path)
 
@@ -238,17 +231,19 @@ def main(reference_dir: Path, prediction_dir: Path, output_dir: Path):
         true_df = load_segments(reference_dir / f"{eval_set}_labels.csv")
         features_df = load_features(reference_dir, eval_set)
 
-        event_metrics = compute_event_metrics(pred_df, true_df, iou_threshold=IOU_THRESHOLD)
-        clip_metrics = compute_clip_metrics(pred_df, true_df)
-        clip_accuracy = compute_clip_accuracy(features_df, pred_df, true_df)
+        segment_metrics = compute_segment_metrics(
+            pred_df, true_df, iou_threshold=IOU_THRESHOLD
+        )
+        presence_metrics = compute_presence_metrics(pred_df, true_df)
+        presence_accuracy = compute_presence_accuracy(features_df, pred_df, true_df)
 
-        for key, value in event_metrics.items():
+        for key, value in segment_metrics.items():
             scores[f"{eval_set}_{key}"] = float(value)
 
-        for key, value in clip_metrics.items():
+        for key, value in presence_metrics.items():
             scores[f"{eval_set}_{key}"] = float(value)
 
-        scores[f"{eval_set}_clip_accuracy"] = float(clip_accuracy)
+        scores[f"{eval_set}_presence_accuracy"] = float(presence_accuracy)
 
     metadata_path = prediction_dir / "metadata.json"
     if metadata_path.exists():
