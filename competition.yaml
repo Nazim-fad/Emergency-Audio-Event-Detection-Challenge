@@ -1,6 +1,6 @@
-version: 2
-title: Templat competition - Dummy classification
-description: Dummy classification task
+version: 1
+title: Emergency Audio Event Detection
+description: Detect emergency sound events in audio clips and predict their start and end times.
 image: logo.png
 registration_auto_approve: False  # if True, do not require approval from admin to join the comp
 
@@ -15,8 +15,8 @@ pages:
 
 tasks:
   - index: 0
-    name: Developement Task
-    description: 'Tune models with training data, test against examples contained in public test data'
+    name: Development Task
+    description: Train an emergency audio event detector on the provided training data. For each test audio clip, predict the time intervals where an emergency event occurs.
     input_data: dev_phase/input_data/
     reference_data: dev_phase/reference_data/
     ingestion_program: ingestion_program/
@@ -31,9 +31,9 @@ solutions:
 
 phases:
   - name: Development Phase
-    description: 'Development phase: tune your models.'
-    start: 10-07-2025
-    end: 03-31-2026
+    description: Development phase for model building and validation.
+    start: 2025-07-10
+    end: 2026-03-31
     tasks:
       - 0
 
@@ -41,20 +41,43 @@ leaderboards:
   - title: Results
     key: main
     columns:
-      - title: Test Accuracy
-        key: test
+      - title: Test Event F1
+        key: test_event_f1
         index: 0
-        sorting: asc
-      - title: Private Test Accuracy
-        key: private_test
+        sorting: desc
+
+      - title: Test Event Precision
+        key: test_event_precision
         index: 1
-        sorting: asc
-        hidden: True
-      - title: Train time
-        key: train_time
+        sorting: desc
+
+      - title: Test Event Recall
+        key: test_event_recall
         index: 2
         sorting: desc
-      - title: Test time
-        key: test_time
+
+      - title: Test Clip F1
+        key: test_clip_f1
         index: 3
         sorting: desc
+
+      - title: Test Clip Accuracy
+        key: test_clip_accuracy
+        index: 4
+        sorting: desc
+
+      - title: Private Event F1
+        key: private_test_event_f1
+        index: 5
+        sorting: desc
+        hidden: True
+
+      - title: Train Time
+        key: train_time
+        index: 6
+        sorting: asc
+
+      - title: Test Time
+        key: test_time
+        index: 7
+        sorting: asc

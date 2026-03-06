@@ -1,2 +1,5 @@
 pandas
+numpy
+scipy
+soundfile
 scikit-learn
