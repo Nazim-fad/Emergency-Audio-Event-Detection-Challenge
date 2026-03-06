@@ -1,11 +1,17 @@
 # Timeline
 
-## Development phase
-This phase should be used to tune your models, testing against a small
-set of testing data
+This competition operates under a single, unified evaluation phase. Participants have continuous access to the training data and can submit their models for immediate scoring against the hidden test set.
 
-## Final phase
-Resubmit your preferred submission from the development phase to test
-against a new set of testing data. Your model will be trained against
-the same set of training data as in the development phase. You may only
-make one submission to this phase, so choose wisely.
+## Important Dates
+
+* **Challenge Opens:** [Insert Start Date]
+  * Training data, baseline models, and ingestion environments are released.
+  * The submission portal opens.
+
+* **Submission Deadline:** [Insert End Date]
+  * The portal closes at 23:59 CET. No late submissions will be accepted.
+
+* **Final Results Publication:** [Insert Results Date]
+  * The final leaderboard is verified and officially published.
+
+*Note: As this is a single-phase challenge, your public leaderboard score directly reflects your final standing. There is no separate development or private phase.*
