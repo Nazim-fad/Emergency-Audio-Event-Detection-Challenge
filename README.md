@@ -1,4 +1,13 @@
+<div style="text-align: center;">
+    <a href="https://www.hi-paris.fr/">
+        <img border="0" src="https://www.hi-paris.fr/wp-content/uploads/2020/09/logo-hi-paris-retina.png" width="25%"></a>
+    <a href="https://www.dataia.eu/">
+        <img border="0" src="https://github.com/ramp-kits/template-kit/raw/main/img/DATAIA-h.png" width="70%"></a>
+</div>
+
 # Emergency Audio Event Detection Challenge
+
+Authors: Nazim Fadli (M2DS), Soumodeep Hoodaty (M2DS), Clijo Jose (M2DS), Sergei Gerasimov (M2DS), Luis Miguel Herrá Alpuente, Imane Mokhtatif (M2DS).
 
 This repository contains the starting kit and submission structure for the Emergency Audio Event Detection Challenge. 
 
@@ -16,22 +25,29 @@ These datasets are combined and filtered to create a collection of audio clips c
 
 ## The Challenge & Evaluation Metrics
 
-For each audio clip, participants must:
-* Detect whether an emergency sound occurs.
-* Predict the exact **start and end time** of the event. 
-*(If no emergency is detected, the model should return no segments).*
+The goal of this challenge is to **detect emergency sound events and predict when they occur in the audio**.
 
-The evaluation considers both whether an emergency is detected and how accurately its start and end times are predicted. Predicted segments are compared with the ground-truth annotations using an **Intersection over Union (IoU)** measure between time intervals.
+Predicted time segments are compared with the ground-truth annotations using **Intersection over Union (IoU)**. A prediction is considered correct if the overlap with a true segment exceeds a predefined threshold.
 
-Based on these matches, the following metrics are computed:
-* **Event Precision:** the proportion of predicted segments that correctly match a ground-truth event.
-* **Event Recall:** the proportion of ground-truth events that were successfully detected.
-* **Event F1-score (Main Leaderboard Metric):** the harmonic mean of precision and recall.
+The main evaluation metrics are:
+* **Segment Precision:** The proportion of predicted segments that correctly match a true emergency segment.
+* **Segment Recall:** The proportion of true emergency segments that are successfully detected.
+* **Segment F1-score (Primary Leaderboard Metric):** The harmonic mean of precision and recall.
 
-In addition, clip-level metrics (**Clip F1-score** and **Clip Accuracy**) evaluate whether a model correctly predicts the overall presence or absence of an emergency event in each audio clip.
+We also report **presence-level metrics**, which evaluate whether a model correctly predicts if an emergency occurs in each audio clip:
+* **Presence F1-score**
+* **Presence Accuracy**
+
+To ensure fair evaluation and prevent test set overfitting, the dataset is split into three parts:
+* **Training set:** Used to train models.
+* **Public test set:** Used to compute the public leaderboard score.
+* **Private test set:** Used to compute the final ranking.
+
+Participants see results on the public test set during the competition, while the **private test set remains strictly hidden until the final evaluation**.
 
 ## Structure of the bundle
 
+- `starting_kit.ipynb`: Jupyter notebook with an introduction to the challenge, EDA, and a baseline model.
 - `competition.yaml`: configuration file for the codabench competition,
   specifying phases, tasks, and evaluation metrics.
 - `ingestion_program/`: contains the ingestion program that will be run on
@@ -44,7 +60,7 @@ In addition, clip-level metrics (**Clip F1-score** and **Clip Accuracy**) evalua
     * `ingestion.py`: A script to run the ingestion. The role of this script is
       to load the submission code and produce predictions that can be evaluated
       with the `scoring_program`.
-      In our example, `the submission.py` defines a `get_model` function that
+      The `submission.py` should define a `get_model` function that
       returns an object with `fit` and `predict` methods. This model is then fitted on the
       training data calling `fit`, and the `predict` method is used to generate
       predictions on the test data (returning a list of segments with start and end times). These predictions are stored as a csv file,
@@ -67,44 +83,3 @@ In addition, clip-level metrics (**Clip F1-score** and **Clip Accuracy**) evalua
   codabench competition.
 - `requirements.txt`: contains the required python dependencies to run the
   challenge.
-
-## Instructions to test your submission locally
-
-To test the ingestion program on your code, run:
-
-```
-python ingestion_program/ingestion.py --data-dir dev_phase/input_data/ --output-dir ingestion_res/  --submission-dir solution/
-```
-To test the scoring program and view your metrics, run:
-```
-python scoring_program/scoring.py --reference-dir dev_phase/reference_data/ --output-dir scoring_res  --prediction-dir ingestion_res/
-```
-### Setting up and testing the docker image
-For convenience, a python script tools/run_docker.py is provided to build the docker image, and run the ingestion and scoring programs inside the docker
-container. This script requires installing the docker python package, which can be done via pip:
-```
-pip install docker
-python tools/run_docker.py
-```
-You can also perform these steps manually. You first need to build the docker image locally from the Dockerfile with:
-```
-docker build -t docker-image tools
-```
-To test the docker image locally, run:
-```
-docker run --rm -u root \
-    -v "./ingestion_program":"/app/ingestion_program" \
-    -v "./dev_phase/input_data":/app/input_data \
-    -v "./ingestion_res":/app/output \
-    -v "./solution":/app/ingested_program \
-    --name ingestion docker-image \
-        python /app/ingestion_program/ingestion.py
-
-docker run --rm -u root \
-    -v "./scoring_program":"/app/scoring_program" \
-    -v "./dev_phase/reference_data":/app/input/ref \
-    -v "./ingestion_res":/app/input/res \
-```
-    -v "./scoring_res":/app/output \
-    --name scoring docker-image \
-        python /app/scoring_program/scoring.py
