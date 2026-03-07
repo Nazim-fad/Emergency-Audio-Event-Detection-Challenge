@@ -14,7 +14,19 @@ Given a dataset of mixed audio clips, your model must:
 ### Why it Matters
 This is a complex challenge because models must simultaneously *recognize* the type of sound and *locate* it precisely in time. Solving this is crucial for advancing real-world applications like autonomous driving, public safety monitoring, smart city infrastructure, and assistive technologies.
 
-![Audio Spectrogram Analysis](https://upload.wikimedia.org/wikipedia/commons/c/c5/Spectrogram-19thC.png)
+**Mel-Spectrogram Comparison**
+*(Visualizing the non-linear frequency energy distributions)*
+
+![Mel-Spectrogram Comparison](https://raw.githubusercontent.com/Nazim-fad/Emergency-Audio-Event-Detection-Challenge/refs/heads/main/assets/spectograms.png)
+
+**Reference Audio Samples**
+*(Auditory verification of the Signal-to-Noise Ratio and environmental distortion)*
+
+**1. Emergency Event Present**
+[Listen to the Emergency Audio (Opens in new tab) 🔊](https://cdn.jsdelivr.net/gh/Nazim-fad/Emergency-Audio-Event-Detection-Challenge/assets/emergency_noise.wav)
+
+**2. Strictly Background Audio**
+[Listen to the Background Audio (Opens in new tab) 🔊](https://cdn.jsdelivr.net/gh/Nazim-fad/Emergency-Audio-Event-Detection-Challenge/assets/bg_noise.wav)
 
 
 ## How to Participate
