@@ -1,4 +1,13 @@
+<div style="text-align: center;">
+    <a href="https://www.hi-paris.fr/">
+        <img border="0" src="https://www.hi-paris.fr/wp-content/uploads/2020/09/logo-hi-paris-retina.png" width="25%"></a>
+    <a href="https://www.dataia.eu/">
+        <img border="0" src="https://github.com/ramp-kits/template-kit/raw/main/img/DATAIA-h.png" width="70%"></a>
+</div>
+
 # Emergency Audio Event Detection Challenge
+
+Authors: Nazim Fadli (M2DS), Soumodeep Hoodaty (M2DS), Clijo Jose (M2DS), Sergei Gerasimov (M2DS), Luis Miguel Herrá Alpuente, Imane Mokhtatif (M2DS).
 
 This repository contains the starting kit and submission structure for the Emergency Audio Event Detection Challenge. 
 
@@ -38,6 +47,7 @@ Participants see results on the public test set during the competition, while th
 
 ## Structure of the bundle
 
+- `starting_kit.ipynb`: Jupyter notebook with an introduction to the challenge, EDA, and a baseline model.
 - `competition.yaml`: configuration file for the codabench competition,
   specifying phases, tasks, and evaluation metrics.
 - `ingestion_program/`: contains the ingestion program that will be run on
@@ -50,7 +60,7 @@ Participants see results on the public test set during the competition, while th
     * `ingestion.py`: A script to run the ingestion. The role of this script is
       to load the submission code and produce predictions that can be evaluated
       with the `scoring_program`.
-      In our example, `the submission.py` defines a `get_model` function that
+      The `submission.py` should define a `get_model` function that
       returns an object with `fit` and `predict` methods. This model is then fitted on the
       training data calling `fit`, and the `predict` method is used to generate
       predictions on the test data (returning a list of segments with start and end times). These predictions are stored as a csv file,
