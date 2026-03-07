@@ -16,19 +16,25 @@ These datasets are combined and filtered to create a collection of audio clips c
 
 ## The Challenge & Evaluation Metrics
 
-For each audio clip, participants must:
-* Detect whether an emergency sound occurs.
-* Predict the exact **start and end time** of the event. 
-*(If no emergency is detected, the model should return no segments).*
+The goal of this challenge is to **detect emergency sound events and predict when they occur in the audio**.
 
-The evaluation considers both whether an emergency is detected and how accurately its start and end times are predicted. Predicted segments are compared with the ground-truth annotations using an **Intersection over Union (IoU)** measure between time intervals.
+Predicted time segments are compared with the ground-truth annotations using **Intersection over Union (IoU)**. A prediction is considered correct if the overlap with a true segment exceeds a predefined threshold.
 
-Based on these matches, the following metrics are computed:
-* **Event Precision:** the proportion of predicted segments that correctly match a ground-truth event.
-* **Event Recall:** the proportion of ground-truth events that were successfully detected.
-* **Event F1-score (Main Leaderboard Metric):** the harmonic mean of precision and recall.
+The main evaluation metrics are:
+* **Segment Precision:** The proportion of predicted segments that correctly match a true emergency segment.
+* **Segment Recall:** The proportion of true emergency segments that are successfully detected.
+* **Segment F1-score (Primary Leaderboard Metric):** The harmonic mean of precision and recall.
 
-In addition, clip-level metrics (**Clip F1-score** and **Clip Accuracy**) evaluate whether a model correctly predicts the overall presence or absence of an emergency event in each audio clip.
+We also report **presence-level metrics**, which evaluate whether a model correctly predicts if an emergency occurs in each audio clip:
+* **Presence F1-score**
+* **Presence Accuracy**
+
+To ensure fair evaluation and prevent test set overfitting, the dataset is split into three parts:
+* **Training set:** Used to train models.
+* **Public test set:** Used to compute the public leaderboard score.
+* **Private test set:** Used to compute the final ranking.
+
+Participants see results on the public test set during the competition, while the **private test set remains strictly hidden until the final evaluation**.
 
 ## Structure of the bundle
 
