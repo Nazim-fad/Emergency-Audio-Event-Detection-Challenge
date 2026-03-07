@@ -6,4 +6,5 @@ scikit-learn
 matplotlib
 librosa
 ipykernel
+ipywidgets
 tqdm
