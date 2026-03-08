@@ -41,43 +41,38 @@ leaderboards:
   - title: Results
     key: main
     columns:
-      - title: Test Segment F1
+      - title: Segment F1 (Public)
         key: test_segment_f1
         index: 0
         sorting: desc
 
-      - title: Test Segment Precision
+      - title: Segment Precision
         key: test_segment_precision
         index: 1
         sorting: desc
 
-      - title: Test Segment Recall
+      - title: Segment Recall
         key: test_segment_recall
         index: 2
         sorting: desc
 
-      - title: Test Presence F1
+      - title: Presence F1
         key: test_presence_f1
         index: 3
         sorting: desc
 
-      - title: Test Presence Accuracy
-        key: test_presence_accuracy
-        index: 4
-        sorting: desc
-
-      - title: Private Segment F1
+      - title: Segment F1 (Private)
         key: private_test_segment_f1
-        index: 5
+        index: 4
         sorting: desc
         hidden: True
 
-      - title: Train Time
+      - title: Train Time (s)
         key: train_time
-        index: 6
+        index: 5
         sorting: asc
 
-      - title: Test Time
+      - title: Test Time (s)
         key: test_time
-        index: 7
+        index: 6
         sorting: asc
