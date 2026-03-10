@@ -1,4 +1,5 @@
 ## Introduction: Emergency Audio Event Detection
+Authors: Nazim Fadli (M2DS), Soumodeep Hoodaty (M2DS), Clijo Jose (M2DS), Sergei Gerasimov (M2DS), Luis Miguel Herrá Alpuente, Imane Mokhtatif (M2DS).
 
 The goal of this challenge is to build models capable of automatically detecting and segmenting emergency sounds from everyday background noise. 
 
@@ -17,20 +18,19 @@ This is a complex challenge because models must simultaneously *recognize* the t
 **Mel-Spectrogram Comparison**
 *(Visualizing the non-linear frequency energy distributions)*
 
-<img src="https://raw.githubusercontent.com/Nazim-fad/Emergency-Audio-Event-Detection-Challenge/refs/heads/main/assets/spectograms.png" alt="Mel-Spectrogram Comparison" width="700" />
+<img src="https://raw.githubusercontent.com/Nazim-fad/Emergency-Audio-Event-Detection-Challenge/refs/heads/main/assets/spectograms.png" alt="Mel-Spectrogram Comparison" width="700">
 
 **Reference Audio Samples**
 *(Auditory verification of the Signal-to-Noise Ratio and environmental distortion)*
 
 **1. Emergency Event Present**
-[Listen to the Emergency Audio (Opens in new tab) 🔊](https://cdn.jsdelivr.net/gh/Nazim-fad/Emergency-Audio-Event-Detection-Challenge/assets/emergency_noise.wav)
+[Listen to the Emergency Audio 🔊](https://cdn.jsdelivr.net/gh/Nazim-fad/Emergency-Audio-Event-Detection-Challenge/assets/emergency_noise.wav)
 
 **2. Strictly Background Audio**
-[Listen to the Background Audio (Opens in new tab) 🔊](https://cdn.jsdelivr.net/gh/Nazim-fad/Emergency-Audio-Event-Detection-Challenge/assets/bg_noise.wav)
+[Listen to the Background Audio 🔊](https://cdn.jsdelivr.net/gh/Nazim-fad/Emergency-Audio-Event-Detection-Challenge/assets/bg_noise.wav)
 
 
 ## How to Participate
-
 Ready to build your solution? Here is everything you need to know to format and submit your model successfully.
 
 ### 1. The Submission File
@@ -63,3 +63,24 @@ If the model does not detect anything in the audio file, simply return an empty 
 []
 
 ```
+
+### 4. Evaluation
+Predicted time segments are compared with the ground-truth annotations using **Intersection over Union (IoU)**. A prediction is considered correct if the overlap with a true segment exceeds a predefined threshold.
+
+The main evaluation metrics are:
+* **Segment Precision:** The proportion of predicted segments that correctly match a true emergency segment.
+* **Segment Recall:** The proportion of true emergency segments that are successfully detected.
+* **Segment F1-score (Primary Leaderboard Metric):** The harmonic mean of precision and recall.
+
+We also report **presence-level metrics (F1 score and accuracy)**, which evaluate whether a model correctly predicts if an emergency occurs in each audio clip.
+
+### 5. Resources
+To help you get started, we provide the full dataset and a starter kit for local development.
+
+- **Download the data and starting kit:** [Google Drive](https://drive.google.com/file/d/1JDf49a_nB_tjWqBQfBafq2A6Q6kOepZu/view?usp=sharing)
+- **Challenge repository and additional information:** [GitHub Repository](https://github.com/Nazim-fad/Emergency-Audio-Event-Detection-Challenge)
+
+The Google Drive folder contains the data and starter resources needed to begin experimenting locally.  
+The GitHub repository includes additional information about the challenge, updates, and useful project files.
+
+We encourage participants to review both before starting their submissions. Good luck, and we look forward to seeing your solutions!
