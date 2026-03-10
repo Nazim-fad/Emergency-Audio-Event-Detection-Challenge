@@ -78,8 +78,8 @@ Participants see results on the public test set during the competition, while th
   as a reference. Here, this is a baseline `EnergyDetector` model. This file
   gives the user the structure of the code they need to submit. The user needs to submit a `submission.py` file with a `get_model` function.
 - `*_phase/`: contains the data for a given phase, including input data and
-  reference labels.
+  reference labels. 
 - `pages/`: contains markdown files that will be rendered as web pages in the
-  codabench competition.
+  codabench competition. 
 - `requirements.txt`: contains the required python dependencies to run the
-  challenge.
+  challenge. 
